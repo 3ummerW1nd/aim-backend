@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "taskRecord")
+@Table(name = "post")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class Post{
 	@Id

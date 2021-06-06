@@ -14,17 +14,17 @@ public class User{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private Timestamp createdAt;
+	private Timestamp createdat;
 	private int password;
 	private String avatar;
 	private String username;
 
 	public void setCreatedAt(Timestamp createdAt){
-		this.createdAt = createdAt;
+		this.createdat = createdAt;
 	}
 
 	public Timestamp getCreatedAt(){
-		return createdAt;
+		return createdat;
 	}
 
 	public void setPassword(int password){
