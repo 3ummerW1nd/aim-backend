@@ -6,12 +6,15 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@IdClass(FollowPK.class)
 @Table(name = "follow")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class Follow{
 	@Id
 	private int userId;
 	private Timestamp followedAt;
+	private String followingName;
+	@Id
 	private int followingId;
 
 	public void setFollowedAt(Timestamp followedAt){
@@ -36,5 +39,13 @@ public class Follow{
 
 	public int getUserId(){
 		return userId;
+	}
+
+	public String getFollowingName() {
+		return followingName;
+	}
+
+	public void setFollowingName(String followingName) {
+		this.followingName = followingName;
 	}
 }

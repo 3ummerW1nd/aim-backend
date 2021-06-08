@@ -13,17 +13,17 @@ public class UserController {
 
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     @ResponseBody
-    public User getUser(@RequestParam("userID") int userID ) {
+    public User getUser(@RequestParam("userId") int userId ) {
         User user = new User();
         try {
-            user =  userService.getUserByID(userID);
+            user =  userService.getUserById(userId);
         } catch(Exception e) {
             e.printStackTrace();
         }
         return user;
     }
 
-    @RequestMapping(value = "/insertOrUpdateUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
     @ResponseBody
     public User insertOrUpdateUser(@RequestParam("user") String userString ) {
         User user = new User();
@@ -35,5 +35,7 @@ public class UserController {
         }
         return user;
     }
+
+
 
 }

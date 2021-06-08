@@ -14,24 +14,24 @@ public class User{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private Timestamp createdat;
-	private int password;
+	private Timestamp createdAt;
+	private String password;
 	private String avatar;
 	private String username;
 
 	public void setCreatedAt(Timestamp createdAt){
-		this.createdat = createdAt;
+		this.createdAt = createdAt;
 	}
 
 	public Timestamp getCreatedAt(){
-		return createdat;
+		return createdAt;
 	}
 
-	public void setPassword(int password){
+	public void setPassword(String password){
 		this.password = password;
 	}
 
-	public int getPassword(){
+	public String getPassword(){
 		return password;
 	}
 
