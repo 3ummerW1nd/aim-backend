@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 public class Follow{
 	@Id
 	private int userId;
+	private String username;
 	private Timestamp followedAt;
 	private String followingName;
 	@Id
@@ -47,5 +48,13 @@ public class Follow{
 
 	public void setFollowingName(String followingName) {
 		this.followingName = followingName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

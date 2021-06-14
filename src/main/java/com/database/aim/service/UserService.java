@@ -4,9 +4,11 @@ import com.database.aim.dao.UserDao;
 import com.database.aim.dao.UserTeamMapDao;
 import com.database.aim.pojo.BriefTeam;
 import com.database.aim.pojo.User;
+import com.database.aim.pojo.UserTeamMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,5 +41,17 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public void changeUsername(int userId, String newName) {
+        User user = userDAO.findUserById(userId);
+        user.setUsername(newName);
+        userDAO.save(user);
+        List<UserTeamMap> userTeamMaps;
+        userTeamMaps = userTeamMapDao.findUserTeamMapsByUserId(userId);
+        for(UserTeamMap it : userTeamMaps) {
+            it.setUsername(newName);
+            userTeamMapDao.save(it);
+        }
     }
 }

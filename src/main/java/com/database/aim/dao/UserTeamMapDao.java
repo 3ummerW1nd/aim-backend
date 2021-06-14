@@ -1,9 +1,6 @@
 package com.database.aim.dao;
 
-import com.database.aim.pojo.BriefTeam;
-import com.database.aim.pojo.BriefUser;
-import com.database.aim.pojo.UserTeamMap;
-import com.database.aim.pojo.UserTeamPK;
+import com.database.aim.pojo.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,4 +16,13 @@ public interface UserTeamMapDao extends JpaRepository<UserTeamMap, UserTeamPK> {
     List<BriefTeam> findTeamsByUserId(int userId);
     //返回某个人关注的所有小组的ID与组名
 
+    @Query(value = "select authority from UserTeamMap where team_id = ?1 and user_id = ?2", nativeQuery = true)
+    Authority findAuthority(int teamId, int userId);
+    //返回某个小组某个成员的职务
+
+    UserTeamMap findUserTeamMapByUserIdAndTeamId(int userId, int teamId);
+
+    List<UserTeamMap> findUserTeamMapsByUserId(int userId);
+
+    List<UserTeamMap> findUserTeamMapsByTeamId(int teamId);
 }

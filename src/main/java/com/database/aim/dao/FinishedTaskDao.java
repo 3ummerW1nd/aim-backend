@@ -8,4 +8,5 @@ import java.util.List;
 public interface FinishedTaskDao extends JpaRepository<FinishedTask, Integer> {
     List<FinishedTask> findFinishedTasksByTeamId(int teamId);
     List<FinishedTask> findFinishedTasksByUserId(int userId);
+
 }
