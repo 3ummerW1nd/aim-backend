@@ -9,12 +9,18 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.database.aim.pojo.Authority.ADMIN;
+import static com.database.aim.pojo.Authority.CREATOR;
+
 @Service
 public class TeamService {
     @Autowired
     TeamDao teamDao;
     @Autowired
     UserTeamMapDao userTeamMapDao;
+
+    TaskService taskService = new TaskService();
+
     public boolean addTeam(Team team) {
         teamDao.save(team);
         return true;
@@ -38,7 +44,7 @@ public class TeamService {
 
     public boolean isManager(int teamId, int userId) {
         Authority authority = getAuthority(teamId, userId);
-        if(authority.equals("CREATOR") || authority.equals("ADMIN")) {
+        if(authority.equals(CREATOR) || authority.equals(ADMIN)) {
             return true;
         }
         return false;
@@ -47,12 +53,13 @@ public class TeamService {
 
     public boolean isCreator(int teamId, int userId) {
         Authority authority = getAuthority(teamId, userId);
-        if(authority.equals("CREATOR")) {
+        if(authority.equals(CREATOR)) {
             return true;
         }
         return false;
     }
     //检测某人是否有做管理员的权力
+
     public boolean deleteTeam(Team team, int userId) {
         if(isCreator(team.getId(), userId)) {
             teamDao.delete(team);
@@ -62,6 +69,9 @@ public class TeamService {
     }
 
     public void addMember(Team team, User user) {
+        int num = team.getMemberNum() + 1;
+        team.setMemberNum(num);
+        teamDao.save(team);
         UserTeamMap userTeamMap = new UserTeamMap();
         userTeamMap.setTeamId(team.getId());
         userTeamMap.setTeamName(team.getName());
@@ -69,20 +79,48 @@ public class TeamService {
         userTeamMap.setUsername(user.getUsername());
         userTeamMap.setAuthority(Authority.MEMBER);
         userTeamMapDao.save(userTeamMap);
+        List<TeamTask> teamTasks = taskService.getAllTeamTasksByTeamId(team.getId());
+        for(TeamTask it : teamTasks) {
+            taskService.addPersonalTaskByTeamTask(it, user.getId());
+        }
     }
 
     public void removeMember(Team team, User user) {
+        if(isCreator(team.getId(), user.getId())) {
+            teamDao.delete(team);
+            List<TeamTask> teamTasks = taskService.getAllTeamTasksByTeamId(team.getId());
+            for(TeamTask it : teamTasks) {
+                taskService.deleteTeamTask(it);
+                List<PersonalTask> personalTasks = taskService.getAllPersonalTasksByUserId(it.getId());
+                for(PersonalTask personalTask : personalTasks) {
+                    taskService.deletePersonalTask(personalTask);
+                }
+            }
+        }
+        int num = team.getMemberNum() - 1;
+        team.setMemberNum(num);
+        teamDao.save(team);
         UserTeamMap userTeamMap = new UserTeamMap();
         userTeamMap.setTeamId(team.getId());
         userTeamMap.setTeamName(team.getName());
         userTeamMap.setUserId(user.getId());
         userTeamMap.setUsername(user.getUsername());
         userTeamMapDao.delete(userTeamMap);
+        List<TeamTask> teamTasks = taskService.getAllTeamTasksByTeamId(team.getId());
+        for(TeamTask it : teamTasks) {
+            taskService.removePersonalTaskByTeamTask(it, user.getId());
+        }
     }
 
     public void setAdmin(int teamId, int userId) {
         UserTeamMap userTeamMap = userTeamMapDao.findUserTeamMapByUserIdAndTeamId(userId, teamId);
-        userTeamMap.setAuthority(Authority.ADMIN);
+        userTeamMap.setAuthority(ADMIN);
+        userTeamMapDao.save(userTeamMap);
+    }
+
+    public void unsetAdmin(int teamId, int userId) {
+        UserTeamMap userTeamMap = userTeamMapDao.findUserTeamMapByUserIdAndTeamId(userId, teamId);
+        userTeamMap.setAuthority(Authority.MEMBER);
         userTeamMapDao.save(userTeamMap);
     }
 
@@ -102,5 +140,9 @@ public class TeamService {
         Team team = new Team();
         team.setDescription(description);
         teamDao.save(team);
+    }
+
+    public int getMemberNumByTeamId(int teamId) {
+        return teamDao.findTeamById(teamId).getMemberNum();
     }
 }

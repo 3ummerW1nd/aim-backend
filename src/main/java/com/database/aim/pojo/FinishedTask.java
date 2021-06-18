@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 
@@ -12,27 +13,12 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class FinishedTask{
 	@Id
+	private int id;
 	private int taskId;
+	private int userId;
 	private int teamId;
 	private String name;
-	private int userId;
 	private Timestamp finishedAt;
-
-	public void setTeamId(int teamId){
-		this.teamId = teamId;
-	}
-
-	public int getTeamId(){
-		return teamId;
-	}
-
-	public void setName(String name){
-		this.name = name;
-	}
-
-	public String getName(){
-		return name;
-	}
 
 	public void setUserId(int userId){
 		this.userId = userId;
@@ -56,5 +42,29 @@ public class FinishedTask{
 
 	public Timestamp getFinishedAt(){
 		return finishedAt;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

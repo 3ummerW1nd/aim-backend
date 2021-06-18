@@ -1,19 +1,24 @@
 package com.database.aim.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.database.aim.pojo.BriefTeam;
+import com.database.aim.pojo.PeriodType;
+import com.database.aim.pojo.PersonalTask;
 import com.database.aim.pojo.User;
 import com.database.aim.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/getUser", method = RequestMethod.GET)
-    @ResponseBody
-    public User getUser(@RequestParam("userId") int userId ) {
+    @PostMapping("/user/getUser")
+    public User getUser(@RequestBody int userId) {
         User user = new User();
         try {
             user =  userService.getUserById(userId);
@@ -23,19 +28,23 @@ public class UserController {
         return user;
     }
 
-    @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
-    @ResponseBody
-    public User insertOrUpdateUser(@RequestParam("user") String userString ) {
-        User user = new User();
+    @PostMapping("/user/addOrUpdate")
+    public void insertOrUpdateUser(@RequestBody User user) {
         try {
-            user = JSON.parseObject(userString, User.class);
             userService.addUser(user);
         } catch(Exception e) {
             e.printStackTrace();
         }
-        return user;
     }
-
-
+    @PostMapping("/user/getAllTeams")
+    public List<BriefTeam> getAllTeams(int userId){
+        List<BriefTeam> briefTeams = new ArrayList<>();
+        try {
+            briefTeams = userService.getTeamsByUserId(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return briefTeams;
+    }
 
 }

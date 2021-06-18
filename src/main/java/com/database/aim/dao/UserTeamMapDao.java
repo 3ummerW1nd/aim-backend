@@ -25,4 +25,7 @@ public interface UserTeamMapDao extends JpaRepository<UserTeamMap, UserTeamPK> {
     List<UserTeamMap> findUserTeamMapsByUserId(int userId);
 
     List<UserTeamMap> findUserTeamMapsByTeamId(int teamId);
+
+    @Query(value = "select team_id from UserTeamMap where user_id = ?1", nativeQuery = true)
+    List<Integer> findTeamIdsByUserId(int userId);
 }

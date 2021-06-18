@@ -3,6 +3,7 @@ package com.database.aim.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -15,7 +16,7 @@ public class TaskRecord{
 	private int amount;
 	private int teamId;
 	private int userId;
-	private Timestamp finishedAt;
+	private Date finishedAt;
 
 	public void setAmount(int amount){
 		this.amount = amount;
@@ -49,11 +50,11 @@ public class TaskRecord{
 		return userId;
 	}
 
-	public void setFinishedAt(Timestamp finishedAt){
+	public void setFinishedAt(Date finishedAt){
 		this.finishedAt = finishedAt;
 	}
 
-	public Timestamp getFinishedAt(){
+	public Date getFinishedAt(){
 		return finishedAt;
 	}
 }

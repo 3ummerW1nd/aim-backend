@@ -16,7 +16,6 @@ public class User{
 	private int id;
 	private Timestamp createdAt;
 	private String password;
-	private String avatar;
 	private String username;
 
 	public void setCreatedAt(Timestamp createdAt){
@@ -41,14 +40,6 @@ public class User{
 
 	public int getId(){
 		return id;
-	}
-
-	public void setAvatar(String avatar){
-		this.avatar = avatar;
-	}
-
-	public String getAvatar(){
-		return avatar;
 	}
 
 	public void setUsername(String username){

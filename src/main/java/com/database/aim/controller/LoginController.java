@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     @Autowired
     UserService userService;
+
     @CrossOrigin
     @PostMapping(value = "/login")
     @ResponseBody

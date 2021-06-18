@@ -3,6 +3,7 @@ package com.database.aim.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @IdClass(UserTeamPK.class)
@@ -16,6 +17,7 @@ public class UserTeamMap{
 	private int userId;
 	private String username;
 	private String teamName;
+	private Timestamp joinedAt;
 	public int getTeamId(){
 		return teamId;
 	}
@@ -54,5 +56,13 @@ public class UserTeamMap{
 
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
+	}
+
+	public Timestamp getJoinedAt() {
+		return joinedAt;
+	}
+
+	public void setJoinedAt(Timestamp joinedAt) {
+		this.joinedAt = joinedAt;
 	}
 }

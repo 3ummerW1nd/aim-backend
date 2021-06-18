@@ -20,19 +20,19 @@ public class JoinRequestService {
         return true;
     }
 
-    List<JoinRequest> getAllReadRequestByTeamId(int teamId) {
+    public List<JoinRequest> getAllReadRequestByTeamId(int teamId) {
         return joinRequestDao.findReadJoinRequestsByTeamId(teamId);
     }
 
-    List<JoinRequest> getAllReadRequestByUserId(int userId) {
+    public List<JoinRequest> getAllReadRequestByUserId(int userId) {
         return joinRequestDao.findReadJoinRequestsByUserId(userId);
     }
 
-    List<JoinRequest> getAllUnreadRequestByTeamId(int teamId) {
+    public List<JoinRequest> getAllUnreadRequestByTeamId(int teamId) {
         return joinRequestDao.findUnreadJoinRequestsByTeamId(teamId);
     }
 
-    List<JoinRequest> getAllUnreadRequestByUserId(int userId) {
+    public List<JoinRequest> getAllUnreadRequestByUserId(int userId) {
         return joinRequestDao.findUnreadJoinRequestsByUserId(userId);
     }
 }

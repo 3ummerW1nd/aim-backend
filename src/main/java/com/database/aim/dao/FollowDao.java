@@ -14,4 +14,7 @@ public interface FollowDao extends JpaRepository<Follow, FollowPK> {
     @Query(value = "select following_id, following_name from follow where user_id = ?1", nativeQuery = true)
     List<FollowUser> findFollowersByUserId(int userId);
     //返回某用户的所有粉丝
+
+    Follow findFollowByUserIdAndFollowingId(int userId, int followingId);
+
 }

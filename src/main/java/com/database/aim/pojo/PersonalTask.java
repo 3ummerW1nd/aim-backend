@@ -6,14 +6,14 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "task")
+@Table(name = "personalTask")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-public class Task{
+public class PersonalTask {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private PeriodType period;
-	private int teamId;
+	private int teamTaskId;
 	private String name;
 	private boolean isPrivate;
 	private Timestamp deadline;
@@ -27,12 +27,20 @@ public class Task{
 		return period;
 	}
 
-	public void setTeamId(int teamId){
-		this.teamId = teamId;
+	public int getTeamTaskId() {
+		return teamTaskId;
 	}
 
-	public int getTeamId(){
-		return teamId;
+	public void setTeamTaskId(int teamTaskId) {
+		this.teamTaskId = teamTaskId;
+	}
+
+	public boolean isPrivate() {
+		return isPrivate;
+	}
+
+	public void setPrivate(boolean aPrivate) {
+		isPrivate = aPrivate;
 	}
 
 	public void setName(String name){

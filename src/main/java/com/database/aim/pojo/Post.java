@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class Post{
 	@Id
+	private int Id;
 	private int poster;
 	private Timestamp createdAt;
 	private String title;

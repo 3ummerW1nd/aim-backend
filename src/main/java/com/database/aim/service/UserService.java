@@ -31,7 +31,10 @@ public class UserService {
         return userDAO.findUserByIdAndPassword(id, Password);
     }
 
-    //获取这个用户加入的所有小组的组名和组号
+    public List<Integer> getTeamIdsByUserId(int userId) {
+        return userTeamMapDao.findTeamIdsByUserId(userId);
+    }
+
     public List<BriefTeam> getTeamsByUserId(int userId) {
         return userTeamMapDao.findTeamsByUserId(userId);
     }
