@@ -18,8 +18,8 @@ public class TeamService {
     TeamDao teamDao;
     @Autowired
     UserTeamMapDao userTeamMapDao;
-
-    TaskService taskService = new TaskService();
+    @Autowired
+    TaskService taskService;
 
     public boolean addTeam(Team team) {
         teamDao.save(team);

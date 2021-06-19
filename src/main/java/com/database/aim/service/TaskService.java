@@ -22,8 +22,8 @@ public class TaskService {
     TaskRecordDao taskRecordDao;
     @Autowired
     FinishedTaskDao finishedTaskDao;
-
-    TeamService teamService = new TeamService();
+    @Autowired
+    TeamService teamService;
     //UserService userService = new UserService();
 
     public void addPersonalTask(PersonalTask personalTask) {
