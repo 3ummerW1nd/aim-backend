@@ -11,6 +11,7 @@ public class TeamTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Enumerated(EnumType.STRING)
     private PeriodType period;
     private int completeNum;
     private String name;

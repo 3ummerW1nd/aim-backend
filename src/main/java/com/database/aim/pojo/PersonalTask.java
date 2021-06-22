@@ -6,12 +6,13 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "personalTask")
+@Table(name = "personaltask")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class PersonalTask {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Enumerated(EnumType.STRING)
 	private PeriodType period;
 	private int teamTaskId;
 	private String name;

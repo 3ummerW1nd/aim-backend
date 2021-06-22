@@ -1,5 +1,6 @@
 package com.database.aim.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.database.aim.pojo.PersonalTask;
 import com.database.aim.pojo.TeamTask;
 import com.database.aim.service.TaskService;
@@ -63,6 +64,7 @@ public class TaskController {
 
     @PostMapping("/task/addPersonalTask")
     public void addPersonalTask(@RequestBody PersonalTask personalTask) {
+        System.out.println(JSON.toJSONString(personalTask));
         try {
             taskService.addPersonalTask(personalTask);
         } catch (Exception e) {
