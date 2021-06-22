@@ -1,5 +1,6 @@
 package com.database.aim.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.database.aim.pojo.BriefTeam;
 import com.database.aim.pojo.User;
 import com.database.aim.service.UserService;
@@ -7,9 +8,11 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @Api
 public class UserController {
@@ -29,6 +32,8 @@ public class UserController {
 
     @PostMapping("/user/addOrUpdate")
     public void insertOrUpdateUser(@RequestBody User user) {
+        System.out.println(JSON.toJSONString(user));
+        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         try {
             userService.addUser(user);
         } catch(Exception e) {

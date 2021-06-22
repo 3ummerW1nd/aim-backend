@@ -1,9 +1,13 @@
 package com.database.aim.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+@Component
 public class RedisUtil {
+    @Autowired
     private JedisPool jedisPool;
 
     public void setJedisPool(JedisPool jedisPool) {
@@ -18,14 +22,10 @@ public class RedisUtil {
 
     //获取
     public String get(String key){
-        Jedis jedis = this.jedisPool.getResource();
+        Jedis jedis = jedisPool.getResource();
         String value = jedis.get(key);
         this.jedisPool.returnResource(jedis);
         return value;
-    }
-
-    public String getKey(String token) {
-        return token.substring(6, token.indexOf("-"));
     }
 
     //查看某个键是否存在

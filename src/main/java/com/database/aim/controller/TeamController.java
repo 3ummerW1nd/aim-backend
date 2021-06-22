@@ -2,6 +2,7 @@ package com.database.aim.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.database.aim.pojo.BriefUser;
+import com.database.aim.pojo.CreateTeam;
 import com.database.aim.pojo.Team;
 import com.database.aim.pojo.User;
 import com.database.aim.service.TeamService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @Api
 public class TeamController {
@@ -44,10 +46,9 @@ public class TeamController {
 
     @CrossOrigin
     @PostMapping("/team/addOrUpdate")
-    public void addOrUpdateTeam(@RequestBody Team team) {
-
+    public void addOrUpdateTeam(@RequestBody CreateTeam createTeam) {
         try {
-            teamService.addTeam(team);
+            teamService.addTeam(createTeam);
         } catch(Exception e) {
             e.printStackTrace();
         }

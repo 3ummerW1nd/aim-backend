@@ -1,5 +1,6 @@
 package com.database.aim.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.database.aim.pojo.LoginUser;
 import com.database.aim.pojo.Token;
 import com.database.aim.pojo.User;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @Controller
 @Api
 public class LoginController {
@@ -18,10 +20,10 @@ public class LoginController {
     @Autowired
     TokenService tokenService;
 
-    @CrossOrigin
     @PostMapping(value = "/login")
     @ResponseBody
     public Token login(@RequestBody LoginUser loginUser) {
+        System.out.println(JSON.toJSONString(loginUser));
         int id = loginUser.getId();
         String password = loginUser.getPassword();
         Token reToken = new Token();

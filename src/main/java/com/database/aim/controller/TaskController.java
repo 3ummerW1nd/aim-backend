@@ -5,21 +5,20 @@ import com.database.aim.pojo.TeamTask;
 import com.database.aim.service.TaskService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @Api
 public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @PostMapping("/task/personalOnceTasks")
-    public List<PersonalTask> getPersonalOnceTasks(@RequestBody int userId) {
+    @GetMapping("/task/personalOnceTasks")
+    public List<PersonalTask> getPersonalOnceTasks(@RequestParam("userId") int userId) {
         List<PersonalTask> personalTasks = new ArrayList<>();
         try {
             personalTasks = taskService.initUserPageOnceTasks(userId);
@@ -29,8 +28,8 @@ public class TaskController {
         return personalTasks;
     }
 
-    @PostMapping("/task/personalPeriodicTasks")
-    public List<PersonalTask> getPersonalPeriodTasks(@RequestBody int userId) {
+    @GetMapping("/task/personalPeriodicTasks")
+    public List<PersonalTask> getPersonalPeriodTasks(@RequestParam("userId") int userId) {
         List<PersonalTask> personalTasks = new ArrayList<>();
         try {
             personalTasks = taskService.initUserPagePeriodicTasks(userId);
@@ -40,8 +39,8 @@ public class TaskController {
         return personalTasks;
     }
 
-    @PostMapping("/task/teamOnceTasks")
-    public List<TeamTask> getTeamOnceTasks(@RequestBody int userId, @RequestBody int teamId) {
+    @GetMapping("/task/teamOnceTasks")
+    public List<TeamTask> getTeamOnceTasks(@RequestParam("userId") int userId, @RequestParam("teamId") int teamId) {
         List<TeamTask> teamTasks = new ArrayList<>();
         try {
             teamTasks = taskService.initTeamPageOnceTasks(userId, teamId);
@@ -51,8 +50,8 @@ public class TaskController {
         return teamTasks;
     }
 
-    @PostMapping("/task/teamPeriodicTasks")
-    public List<TeamTask> getTeamPeriodicTasks(@RequestBody int userId, @RequestBody int teamId) {
+    @GetMapping("/task/teamPeriodicTasks")
+    public List<TeamTask> getTeamPeriodicTasks(@RequestParam("userId") int userId, @RequestParam("teamId") int teamId) {
         List<TeamTask> teamTasks = new ArrayList<>();
         try {
             teamTasks = taskService.initTeamPagePeriodicTasks(userId, teamId);

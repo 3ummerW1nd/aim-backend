@@ -5,6 +5,7 @@ import com.database.aim.pojo.User;
 import com.database.aim.util.RedisUtil;
 import nl.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,8 @@ import java.util.Random;
 
 @Service
 public class TokenService {
-    private RedisUtil redisUtil;
+    @Autowired
+    RedisUtil redisUtil;
 
     //生成token(格式为token:设备-加密的用户名-时间-六位随机数)
     public String generateToken(int userId, String username){

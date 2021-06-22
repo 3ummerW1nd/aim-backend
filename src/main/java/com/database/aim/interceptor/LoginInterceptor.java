@@ -25,22 +25,23 @@ public class LoginInterceptor  implements HandlerInterceptor{
         }
         String token = httpServletRequest.getHeader("token");
         if (null == token){
-            httpServletResponse.sendRedirect("/swagger-ui.html");//设置重定向页面
+            httpServletResponse.sendError(401);
             return false;
         }
-        String tokenId = redisUtil.getKey(token);
+        String tokenId = httpServletRequest.getHeader("id");
         if(!redisUtil.exists(tokenId)){
-            httpServletResponse.sendRedirect("/swagger-ui.html");//设置重定向页面
+            httpServletResponse.sendError(401);
             return false;
         }
         String redisToken = redisUtil.get(tokenId);
         if(redisUtil.ttl(redisToken) <= System.currentTimeMillis()){
             redisUtil.del(tokenId);
-            httpServletResponse.sendRedirect("/swagger-ui.html");//设置重定向页面
+            httpServletResponse.sendError(401);
             return false;
         }
         if(!redisToken.equals(token)) {
-            httpServletResponse.sendRedirect("/swagger-ui.html");//设置重定向页面
+            httpServletResponse.sendError(401);
+
             return false;
         }
         return true;

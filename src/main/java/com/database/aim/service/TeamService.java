@@ -1,5 +1,6 @@
 package com.database.aim.service;
 
+import com.alibaba.fastjson.JSON;
 import com.database.aim.dao.TeamDao;
 import com.database.aim.dao.UserTeamMapDao;
 import com.database.aim.pojo.*;
@@ -20,9 +21,24 @@ public class TeamService {
     UserTeamMapDao userTeamMapDao;
     @Autowired
     TaskService taskService;
+    @Autowired
+    UserService userService;
 
-    public boolean addTeam(Team team) {
-        teamDao.save(team);
+    public boolean addTeam(CreateTeam createTeam) {
+        System.out.println(JSON.toJSONString(createTeam));
+        Team team = new Team();
+        team.setMemberNum(1);
+        team.setDescription(createTeam.getDescription());
+        team.setName(createTeam.getName());
+        team = teamDao.save(team);
+        User user = userService.getUserById(createTeam.getUserId());
+        UserTeamMap userTeamMap = new UserTeamMap();
+        userTeamMap.setTeamId(team.getId());
+        userTeamMap.setTeamName(team.getName());
+        userTeamMap.setUserId(user.getId());
+        userTeamMap.setUsername(user.getUsername());
+        userTeamMap.setAuthority(CREATOR);
+        userTeamMapDao.save(userTeamMap);
         return true;
     }
     //向数据库中添加组

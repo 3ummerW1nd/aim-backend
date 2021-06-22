@@ -12,12 +12,13 @@ import java.sql.Timestamp;
 public class UserTeamMap{
 	@Id
 	private int teamId;
+	@Enumerated(EnumType.STRING)
 	private Authority authority;
 	@Id
 	private int userId;
 	private String username;
 	private String teamName;
-	private Timestamp joinedAt;
+	private Timestamp joinTime;
 	public int getTeamId(){
 		return teamId;
 	}
@@ -59,10 +60,10 @@ public class UserTeamMap{
 	}
 
 	public Timestamp getJoinedAt() {
-		return joinedAt;
+		return joinTime;
 	}
 
 	public void setJoinedAt(Timestamp joinedAt) {
-		this.joinedAt = joinedAt;
+		this.joinTime = joinedAt;
 	}
 }
