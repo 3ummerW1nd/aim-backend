@@ -3,6 +3,7 @@ package com.database.aim.controller;
 import com.database.aim.pojo.PersonalTask;
 import com.database.aim.pojo.TeamTask;
 import com.database.aim.service.TaskService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Api
 public class TaskController {
     @Autowired
     TaskService taskService;
@@ -39,10 +41,10 @@ public class TaskController {
     }
 
     @PostMapping("/task/teamOnceTasks")
-    public List<TeamTask> getTeamOnceTasks(@RequestBody int teamId) {
+    public List<TeamTask> getTeamOnceTasks(@RequestBody int userId, @RequestBody int teamId) {
         List<TeamTask> teamTasks = new ArrayList<>();
         try {
-            teamTasks = taskService.initTeamPageOnceTasks(teamId);
+            teamTasks = taskService.initTeamPageOnceTasks(userId, teamId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,10 +52,10 @@ public class TaskController {
     }
 
     @PostMapping("/task/teamPeriodicTasks")
-    public List<TeamTask> getTeamPeriodicTasks(@RequestBody int teamId) {
+    public List<TeamTask> getTeamPeriodicTasks(@RequestBody int userId, @RequestBody int teamId) {
         List<TeamTask> teamTasks = new ArrayList<>();
         try {
-            teamTasks = taskService.initTeamPagePeriodicTasks(teamId);
+            teamTasks = taskService.initTeamPagePeriodicTasks(userId, teamId);
         } catch (Exception e) {
             e.printStackTrace();
         }

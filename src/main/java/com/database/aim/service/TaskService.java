@@ -24,6 +24,8 @@ public class TaskService {
     FinishedTaskDao finishedTaskDao;
     @Autowired
     TeamService teamService;
+    @Autowired
+    UserService userService;
     //UserService userService = new UserService();
 
     public void addPersonalTask(PersonalTask personalTask) {
@@ -153,12 +155,22 @@ public class TaskService {
         return personalTaskDao.findPersonalTasksByUserIdAndPeriodNot(userId, PeriodType.ONCE);
     }
 
-    public List<TeamTask> initTeamPageOnceTasks(int teamId) {
-        return teamTaskDao.findTeamTasksByTeamIdAndPeriod(teamId, PeriodType.ONCE);
+    public List<TeamTask> initTeamPageOnceTasks(int userId, int teamId) {
+        List<Integer> teamIds= userService.getTeamIdsByUserId(userId);
+        for(int it : teamIds) {
+            if(it == teamId)
+                return teamTaskDao.findTeamTasksByTeamIdAndPeriod(teamId, PeriodType.ONCE);
+        }
+        return teamTaskDao.findTeamTasksByTeamIdAndIsPrivateAndPeriod(teamId, false, PeriodType.ONCE);
     }
 
-    public List<TeamTask> initTeamPagePeriodicTasks(int userId) {
-        return teamTaskDao.findTeamTasksByTeamIdAndPeriodNot(userId, PeriodType.ONCE);
+    public List<TeamTask> initTeamPagePeriodicTasks(int userId, int teamId) {
+        List<Integer> teamIds= userService.getTeamIdsByUserId(userId);
+        for(int it : teamIds) {
+            if(it == teamId)
+                return teamTaskDao.findTeamTasksByTeamIdAndPeriodNot(teamId, PeriodType.ONCE);
+        }
+        return teamTaskDao.findTeamTasksByTeamIdAndIsPrivateAndPeriodNot(teamId, false, PeriodType.ONCE);
     }
 
     public List<TeamTask> getAllTeamTasksByTeamId(int teamId) {
@@ -195,4 +207,11 @@ public class TaskService {
         return personalTaskDao.findPersonalTasksByTeamTaskId(teamTaskId);
     }
 
+    public List<PersonalTask> visitOthersPageOnceTask(int userId) {
+        return personalTaskDao.findPersonalTasksByUserIdAndIsPrivateAndPeriod(userId, false, PeriodType.ONCE);
+    }
+
+    public List<PersonalTask> visitOthersPagePeriodicTask(int userId) {
+        return personalTaskDao.findPersonalTasksByUserIdAndIsPrivateAndPeriodNot(userId, false, PeriodType.ONCE);
+    }
 }

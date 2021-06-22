@@ -13,4 +13,7 @@ public interface PersonalTaskDao extends JpaRepository<PersonalTask, Integer> {
     List<PersonalTask> findPersonalTasksByUserIdAndPeriodNot(int userId, PeriodType periodType);
     List<PersonalTask> findPersonalTasksByUserId(int userId);
     PersonalTask findPersonalTaskByTeamTaskIdAndUserId(int teamTaskId, int userId);
+    List<PersonalTask> findPersonalTasksByUserIdAndIsPrivateAndPeriod(int userId, boolean isPrivate, PeriodType periodType);
+    List<PersonalTask> findPersonalTasksByUserIdAndIsPrivateAndPeriodNot(int userId, boolean isPrivate, PeriodType periodType);
 }
+

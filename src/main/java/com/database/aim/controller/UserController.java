@@ -1,11 +1,9 @@
 package com.database.aim.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.database.aim.pojo.BriefTeam;
-import com.database.aim.pojo.PeriodType;
-import com.database.aim.pojo.PersonalTask;
 import com.database.aim.pojo.User;
 import com.database.aim.service.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Api
 public class UserController {
     @Autowired
     UserService userService;

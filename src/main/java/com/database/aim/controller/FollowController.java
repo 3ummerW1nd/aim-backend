@@ -2,6 +2,7 @@ package com.database.aim.controller;
 
 import com.database.aim.pojo.FollowUser;
 import com.database.aim.service.FollowService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Api
 public class FollowController {
     @Autowired
     FollowService followService;

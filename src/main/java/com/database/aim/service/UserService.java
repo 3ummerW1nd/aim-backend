@@ -7,8 +7,6 @@ import com.database.aim.pojo.User;
 import com.database.aim.pojo.UserTeamMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +25,7 @@ public class UserService {
         return userDAO.findUserById(id);
     }
     //通过ID查询用户
-    public User getUserByIDAndPassword(int id, String Password) {
+    public User login(int id, String Password) {
         return userDAO.findUserByIdAndPassword(id, Password);
     }
 
@@ -37,13 +35,6 @@ public class UserService {
 
     public List<BriefTeam> getTeamsByUserId(int userId) {
         return userTeamMapDao.findTeamsByUserId(userId);
-    }
-
-    public boolean login(User user) {
-        if(getUserByIDAndPassword(user.getId(), user.getPassword()) != null) {
-            return true;
-        }
-        return false;
     }
 
     public void changeUsername(int userId, String newName) {

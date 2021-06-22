@@ -1,9 +1,12 @@
 package com.database.aim.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.database.aim.pojo.BriefUser;
 import com.database.aim.pojo.Team;
 import com.database.aim.pojo.User;
 import com.database.aim.service.TeamService;
+import io.swagger.annotations.Api;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,12 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Api
 public class TeamController {
     @Autowired
     TeamService teamService;
 
-    @PostMapping("/team/getTeam")
-    public Team getTeam(@RequestBody int teamId) {
+    @GetMapping("/team/getTeam")
+    public Team getTeam(@RequestParam("teamId") int teamId) {
+        System.out.println("123");
         Team team = new Team();
         try {
             team = teamService.getTeamById(teamId);
@@ -37,8 +42,10 @@ public class TeamController {
         return users;
     }
 
+    @CrossOrigin
     @PostMapping("/team/addOrUpdate")
     public void addOrUpdateTeam(@RequestBody Team team) {
+
         try {
             teamService.addTeam(team);
         } catch(Exception e) {

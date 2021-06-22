@@ -2,6 +2,7 @@ package com.database.aim.controller;
 
 import com.database.aim.pojo.JoinRequest;
 import com.database.aim.service.JoinRequestService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Api
 public class JoinRequestController {
     @Autowired
     JoinRequestService joinRequestService;
