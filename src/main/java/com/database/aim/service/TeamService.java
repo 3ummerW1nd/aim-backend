@@ -7,11 +7,10 @@ import com.database.aim.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.database.aim.pojo.Authority.ADMIN;
-import static com.database.aim.pojo.Authority.CREATOR;
+import static com.database.aim.pojo.Authority.admin;
+import static com.database.aim.pojo.Authority.creator;
 
 @Service
 public class TeamService {
@@ -37,7 +36,7 @@ public class TeamService {
         userTeamMap.setTeamName(team.getName());
         userTeamMap.setUserId(user.getId());
         userTeamMap.setUsername(user.getUsername());
-        userTeamMap.setAuthority(CREATOR);
+        userTeamMap.setAuthority(creator);
         userTeamMapDao.save(userTeamMap);
         return true;
     }
@@ -60,7 +59,7 @@ public class TeamService {
 
     public boolean isManager(int teamId, int userId) {
         Authority authority = getAuthority(teamId, userId);
-        if(authority.equals(CREATOR) || authority.equals(ADMIN)) {
+        if(authority.equals(creator) || authority.equals(admin)) {
             return true;
         }
         return false;
@@ -69,12 +68,12 @@ public class TeamService {
 
     public boolean isCreator(int teamId, int userId) {
         Authority authority = getAuthority(teamId, userId);
-        if(authority.equals(CREATOR)) {
+        if(authority.equals(creator)) {
             return true;
         }
         return false;
     }
-    //检测某人是否有做管理员的权力
+    //检测某人是否有令人做管理员的权力
 
     public boolean deleteTeam(Team team, int userId) {
         if(isCreator(team.getId(), userId)) {
@@ -84,21 +83,25 @@ public class TeamService {
         return false;
     }
 
-    public void addMember(Team team, User user) {
-        int num = team.getMemberNum() + 1;
-        team.setMemberNum(num);
-        teamDao.save(team);
+    public boolean addMember(Team team, User user) {
+        if(userTeamMapDao.findUserTeamMapByUserIdAndTeamId(user.getId(), team.getId()) != null) {
+            return false;
+        }
         UserTeamMap userTeamMap = new UserTeamMap();
         userTeamMap.setTeamId(team.getId());
         userTeamMap.setTeamName(team.getName());
         userTeamMap.setUserId(user.getId());
         userTeamMap.setUsername(user.getUsername());
-        userTeamMap.setAuthority(Authority.MEMBER);
+        userTeamMap.setAuthority(Authority.member);
         userTeamMapDao.save(userTeamMap);
         List<TeamTask> teamTasks = taskService.getAllTeamTasksByTeamId(team.getId());
         for(TeamTask it : teamTasks) {
             taskService.addPersonalTaskByTeamTask(it, user.getId());
         }
+        int num = team.getMemberNum() + 1;
+        team.setMemberNum(num);
+        teamDao.save(team);
+        return true;
     }
 
     public void removeMember(Team team, User user) {
@@ -130,13 +133,13 @@ public class TeamService {
 
     public void setAdmin(int teamId, int userId) {
         UserTeamMap userTeamMap = userTeamMapDao.findUserTeamMapByUserIdAndTeamId(userId, teamId);
-        userTeamMap.setAuthority(ADMIN);
+        userTeamMap.setAuthority(admin);
         userTeamMapDao.save(userTeamMap);
     }
 
     public void unsetAdmin(int teamId, int userId) {
         UserTeamMap userTeamMap = userTeamMapDao.findUserTeamMapByUserIdAndTeamId(userId, teamId);
-        userTeamMap.setAuthority(Authority.MEMBER);
+        userTeamMap.setAuthority(Authority.member);
         userTeamMapDao.save(userTeamMap);
     }
 

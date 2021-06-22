@@ -1,11 +1,9 @@
 package com.database.aim.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.database.aim.pojo.BriefUser;
-import com.database.aim.pojo.CreateTeam;
-import com.database.aim.pojo.Team;
-import com.database.aim.pojo.User;
+import com.database.aim.pojo.*;
 import com.database.aim.service.TeamService;
+import com.database.aim.service.UserService;
 import io.swagger.annotations.Api;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,8 @@ import java.util.List;
 public class TeamController {
     @Autowired
     TeamService teamService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/team/getTeam")
     public Team getTeam(@RequestParam("teamId") int teamId) {
@@ -55,12 +55,17 @@ public class TeamController {
     }
 
     @PostMapping("/team/joinTeam")
-    public void joinTeam(@RequestBody Team team, @RequestBody User user) {
+    public boolean joinTeam(@RequestBody UserTeamRelation userTeamRelation) {
         try {
-            teamService.addMember(team, user);
+            int teamId = userTeamRelation.getTeamId();
+            int userId = userTeamRelation.getUserId();
+            Team team = teamService.getTeamById(teamId);
+            User user = userService.getUserById(userId);
+            return teamService.addMember(team, user);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @PostMapping("/team/exitTeam")

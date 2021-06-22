@@ -1,6 +1,7 @@
 package com.database.aim.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.database.aim.pojo.Authority;
 import com.database.aim.pojo.BriefTeam;
 import com.database.aim.pojo.User;
 import com.database.aim.service.UserService;
@@ -23,8 +24,8 @@ public class UserController {
     public User getUser(@RequestBody int userId) {
         User user = new User();
         try {
-            user =  userService.getUserById(userId);
-        } catch(Exception e) {
+            user = userService.getUserById(userId);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
@@ -36,19 +37,43 @@ public class UserController {
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         try {
             userService.addUser(user);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    @PostMapping("/user/getAllTeams")
-    public List<BriefTeam> getAllTeams(int userId){
+
+    @GetMapping("/user/getCreateTeams")
+    public List<BriefTeam> getCreateTeams(@RequestParam("userId") int userId) {
+        List<BriefTeam> answerTeams = new ArrayList<>();
         List<BriefTeam> briefTeams = new ArrayList<>();
         try {
             briefTeams = userService.getTeamsByUserId(userId);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return briefTeams;
+        for (BriefTeam briefTeam : briefTeams) {
+            if (briefTeam.getAuthority() == Authority.creator) {
+                answerTeams.add(briefTeam);
+            }
+        }
+        return answerTeams;
+    }
+
+    @GetMapping("/user/getJoinTeams")
+    public List<BriefTeam> getJoinTeams(@RequestParam("userId") int userId) {
+        List<BriefTeam> briefTeams = new ArrayList<>();
+        List<BriefTeam> answerTeams = new ArrayList<>();
+        try {
+            briefTeams = userService.getTeamsByUserId(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (BriefTeam briefTeam : briefTeams) {
+            if (briefTeam.getAuthority() != Authority.creator) {
+                answerTeams.add(briefTeam);
+            }
+        }
+        return answerTeams;
     }
 
 }

@@ -31,6 +31,7 @@ public class TaskController {
 
     @GetMapping("/task/personalPeriodicTasks")
     public List<PersonalTask> getPersonalPeriodTasks(@RequestParam("userId") int userId) {
+        System.out.println(userId);
         List<PersonalTask> personalTasks = new ArrayList<>();
         try {
             personalTasks = taskService.initUserPagePeriodicTasks(userId);

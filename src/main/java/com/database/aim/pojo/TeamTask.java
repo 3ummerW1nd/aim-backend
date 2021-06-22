@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "teamTask")
+@Table(name = "team_task")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class TeamTask {
     @Id

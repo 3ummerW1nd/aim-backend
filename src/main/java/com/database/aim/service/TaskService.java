@@ -40,13 +40,13 @@ public class TaskService {
         long millis = deadline.getTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(millis);
-        if(period == PeriodType.DAILY)
+        if(period == PeriodType.daily)
             calendar.add(Calendar.DATE , 1);
-        else if(period == PeriodType.WEEKLY)
+        else if(period == PeriodType.weekly)
             calendar.add(Calendar.DATE, 7);
-        else if(period == PeriodType.MONTHLY)
+        else if(period == PeriodType.monthly)
             calendar.add(Calendar.MONTH, 1);
-        else if(period == PeriodType.YEARLY)
+        else if(period == PeriodType.yearly)
             calendar.add(Calendar.YEAR, 1);
         deadline.setTime(calendar.getTimeInMillis());
         return deadline;
@@ -54,7 +54,7 @@ public class TaskService {
 
     public void finishPersonalTask(PersonalTask personalTask) {
         PeriodType period = personalTask.getPeriod();
-        if(period == PeriodType.ONCE)
+        if(period == PeriodType.once)
             deletePersonalTask(personalTask);
         else {
             Timestamp deadline = personalTask.getDeadline();
@@ -148,29 +148,29 @@ public class TaskService {
     }
 
     public List<PersonalTask> initUserPageOnceTasks(int userId) {
-        return personalTaskDao.findPersonalTasksByUserIdAndPeriod(userId, PeriodType.ONCE);
+        return personalTaskDao.findPersonalTasksByUserIdAndPeriod(userId, PeriodType.once);
     }
 
     public List<PersonalTask> initUserPagePeriodicTasks(int userId) {
-        return personalTaskDao.findPersonalTasksByUserIdAndPeriodNot(userId, PeriodType.ONCE);
+        return personalTaskDao.findPersonalTasksByUserIdAndPeriodNot(userId, PeriodType.once);
     }
 
     public List<TeamTask> initTeamPageOnceTasks(int userId, int teamId) {
         List<Integer> teamIds= userService.getTeamIdsByUserId(userId);
         for(int it : teamIds) {
             if(it == teamId)
-                return teamTaskDao.findTeamTasksByTeamIdAndPeriod(teamId, PeriodType.ONCE);
+                return teamTaskDao.findTeamTasksByTeamIdAndPeriod(teamId, PeriodType.once);
         }
-        return teamTaskDao.findTeamTasksByTeamIdAndIsPrivateAndPeriod(teamId, false, PeriodType.ONCE);
+        return teamTaskDao.findTeamTasksByTeamIdAndIsPrivateAndPeriod(teamId, false, PeriodType.once);
     }
 
     public List<TeamTask> initTeamPagePeriodicTasks(int userId, int teamId) {
         List<Integer> teamIds= userService.getTeamIdsByUserId(userId);
         for(int it : teamIds) {
             if(it == teamId)
-                return teamTaskDao.findTeamTasksByTeamIdAndPeriodNot(teamId, PeriodType.ONCE);
+                return teamTaskDao.findTeamTasksByTeamIdAndPeriodNot(teamId, PeriodType.once);
         }
-        return teamTaskDao.findTeamTasksByTeamIdAndIsPrivateAndPeriodNot(teamId, false, PeriodType.ONCE);
+        return teamTaskDao.findTeamTasksByTeamIdAndIsPrivateAndPeriodNot(teamId, false, PeriodType.once);
     }
 
     public List<TeamTask> getAllTeamTasksByTeamId(int teamId) {
@@ -208,10 +208,10 @@ public class TaskService {
     }
 
     public List<PersonalTask> visitOthersPageOnceTask(int userId) {
-        return personalTaskDao.findPersonalTasksByUserIdAndIsPrivateAndPeriod(userId, false, PeriodType.ONCE);
+        return personalTaskDao.findPersonalTasksByUserIdAndIsPrivateAndPeriod(userId, false, PeriodType.once);
     }
 
     public List<PersonalTask> visitOthersPagePeriodicTask(int userId) {
-        return personalTaskDao.findPersonalTasksByUserIdAndIsPrivateAndPeriodNot(userId, false, PeriodType.ONCE);
+        return personalTaskDao.findPersonalTasksByUserIdAndIsPrivateAndPeriodNot(userId, false, PeriodType.once);
     }
 }
