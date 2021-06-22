@@ -184,7 +184,7 @@ public class TaskService {
     public void addPersonalTaskByTeamTask(TeamTask teamTask, int userId) {
         int teamTaskId = teamTask.getId();
         Timestamp deadline = teamTask.getDeadline();
-        boolean isPrivate = teamTask.isPrivate();
+        boolean isPrivate = teamTask.isIsPrivate();
         String name = teamTask.getName();
         PeriodType period = teamTask.getPeriod();
         PersonalTask personalTask = new PersonalTask();

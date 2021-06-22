@@ -4,6 +4,11 @@ public class BriefUser {
     private int id;
     private String username;
     private Authority authority;
+    public BriefUser(int id, String name, Authority authority) {
+        this.authority = authority;
+        this.id = id;
+        this.username = name;
+    }
     public int getId() {
         return id;
     }

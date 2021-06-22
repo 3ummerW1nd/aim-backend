@@ -4,6 +4,12 @@ public class BriefTeam {
     private int id;
     private String name;
     private Authority authority;
+
+    public BriefTeam(int id, String name, Authority authority) {
+        this.authority = authority;
+        this.id = id;
+        this.name = name;
+    }
     public int getId() {
         return id;
     }

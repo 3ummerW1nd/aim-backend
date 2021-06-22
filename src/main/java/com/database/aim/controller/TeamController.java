@@ -23,7 +23,6 @@ public class TeamController {
 
     @GetMapping("/team/getTeam")
     public Team getTeam(@RequestParam("teamId") int teamId) {
-        System.out.println("123");
         Team team = new Team();
         try {
             team = teamService.getTeamById(teamId);
@@ -33,8 +32,8 @@ public class TeamController {
         return team;
     }
 
-    @PostMapping("/team/getAllUsers")
-    public List<BriefUser> getAllUsersByTeamId(@RequestBody int teamId) {
+    @GetMapping("/team/getAllUsers")
+    public List<BriefUser> getAllUsersByTeamId(@RequestParam("teamId") int teamId) {
         List<BriefUser> users = new ArrayList<>();
         try {
             users = teamService.getUsersByTeamId(teamId);

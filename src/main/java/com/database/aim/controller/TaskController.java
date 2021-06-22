@@ -65,7 +65,7 @@ public class TaskController {
 
     @PostMapping("/task/addPersonalTask")
     public void addPersonalTask(@RequestBody PersonalTask personalTask) {
-        System.out.println(JSON.toJSONString(personalTask));
+        //System.out.println(JSON.toJSONString(personalTask));
         try {
             taskService.addPersonalTask(personalTask);
         } catch (Exception e) {
@@ -75,6 +75,7 @@ public class TaskController {
 
     @PostMapping("/task/addTeamTask")
     public void addTeamTask(@RequestBody TeamTask teamTask) {
+        System.out.println(JSON.toJSONString(teamTask));
         try {
             taskService.addTeamTask(teamTask);
         } catch (Exception e) {

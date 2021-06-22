@@ -52,11 +52,11 @@ public class TeamTask {
         this.name = name;
     }
 
-    public boolean isPrivate() {
+    public boolean isIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(boolean aPrivate) {
+    public void setIsPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
 
