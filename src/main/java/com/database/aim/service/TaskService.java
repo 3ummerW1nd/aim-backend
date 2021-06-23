@@ -214,4 +214,9 @@ public class TaskService {
     public List<PersonalTask> visitOthersPagePeriodicTask(int userId) {
         return personalTaskDao.findPersonalTasksByUserIdAndIsPrivateAndPeriodNot(userId, false, PeriodType.once);
     }
+
+    public List<TaskRecord> getTaskRecordsById(int userId) {
+        return taskRecordDao.findTaskRecordsByUserId(userId);
+    }
+
 }

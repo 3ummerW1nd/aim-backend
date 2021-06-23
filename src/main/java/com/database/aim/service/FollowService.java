@@ -14,8 +14,8 @@ import java.util.List;
 public class FollowService {
     @Autowired
     FollowDao followDao;
-
-    UserService userService = new UserService();
+    @Autowired
+    UserService userService;
     public List<FollowUser> getAllFollowers(int userId) {
         return followDao.findFollowersByUserId(userId);
     }
@@ -40,6 +40,10 @@ public class FollowService {
     public void unfollow(int userId, int followerId) {
         Follow follow = followDao.findFollowByUserIdAndFollowingId(userId, followerId);
         followDao.delete(follow);
+    }
+
+    public boolean isFollow(int userId, int followingId) {
+        return followDao.findFollowByUserIdAndFollowingId(userId, followingId) != null;
     }
 
 }

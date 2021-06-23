@@ -2,6 +2,7 @@ package com.database.aim.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.database.aim.pojo.PersonalTask;
+import com.database.aim.pojo.TaskRecord;
 import com.database.aim.pojo.TeamTask;
 import com.database.aim.service.TaskService;
 import io.swagger.annotations.Api;
@@ -118,4 +119,16 @@ public class TaskController {
             e.printStackTrace();
         }
     }
+
+    @GetMapping("/task/getTaskRecord")
+    public List<TaskRecord> getTaskRecordById(@RequestParam("userId") int userId) {
+        List<TaskRecord> taskRecords = new ArrayList<>();
+        try {
+            taskRecords = taskService.getTaskRecordsById(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return taskRecords;
+    }
+
 }

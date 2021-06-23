@@ -7,7 +7,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "taskRecord")
+@Table(name = "taskrecord")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class TaskRecord{
 	@Id

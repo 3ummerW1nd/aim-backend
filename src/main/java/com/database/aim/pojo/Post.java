@@ -40,4 +40,12 @@ public class Post{
 	public int getPoster(){
 		return poster;
 	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
 }

@@ -20,8 +20,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/user/getUser")
-    public User getUser(@RequestBody int userId) {
+    @GetMapping("/user/getUser")
+    public User getUser(@RequestParam("userId") int userId) {
+        System.out.println(userId);
         User user = new User();
         try {
             user = userService.getUserById(userId);
