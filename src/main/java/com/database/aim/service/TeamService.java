@@ -109,10 +109,10 @@ public class TeamService {
             teamDao.delete(team);
             List<TeamTask> teamTasks = taskService.getAllTeamTasksByTeamId(team.getId());
             for(TeamTask it : teamTasks) {
-                taskService.deleteTeamTask(it);
+                taskService.deleteTeamTask(it.getId());
                 List<PersonalTask> personalTasks = taskService.getAllPersonalTasksByUserId(it.getId());
                 for(PersonalTask personalTask : personalTasks) {
-                    taskService.deletePersonalTask(personalTask);
+                    taskService.deletePersonalTask(personalTask.getId());
                 }
             }
         }

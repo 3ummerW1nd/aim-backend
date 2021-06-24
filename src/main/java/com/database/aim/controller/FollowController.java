@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @CrossOrigin
@@ -41,21 +42,26 @@ public class FollowController {
     }
 
     @PostMapping("/follow/addFollow")
-    public void addFollow(@RequestBody FollowRelation followRelation) {
-        System.out.println(JSON.toJSONString(followRelation));
+    public boolean addFollow(@RequestBody FollowRelation followRelation) {
         int userId = followRelation.getUserId();
         int followerId = followRelation.getFollowingId();
+        if(followService.isFollow(userId, followerId))
+            return false;
         try {
             followService.follow(userId, followerId);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return true;
     }
 
+    @CrossOrigin
     @PostMapping("/follow/unfollow")
-    public void deleteFollow(int userId, int followerId) {
+    public void deleteFollow(@RequestBody FollowRelation followRelation) {
+        int userId = followRelation.getUserId();
+        int followerId = followRelation.getFollowingId();
         try {
-            followService.follow(userId, followerId);
+            followService.unfollow(userId, followerId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,13 +86,18 @@ public class FollowController {
             for(FollowUser it : followUsers) {
                 List<FollowUser> temp = followService.getAllUsersFollowing(it.getId());
                 for(FollowUser iitt : temp) {
-                    if(!getFollowState(iitt.getId(), userId))
+                    if(!getFollowState(iitt.getId(), userId) && iitt.getId() != userId)
                         answer.add(iitt);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        HashSet set = new HashSet(answer);
+        //使用LinkedHashSet可以保证输入的顺序
+        //LinkedHashSet<String> set2 = new LinkedHashSet<String>(list);
+        answer.clear();
+        answer.addAll(set);
         return answer;
     }
 

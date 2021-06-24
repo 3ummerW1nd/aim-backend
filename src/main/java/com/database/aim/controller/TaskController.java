@@ -2,6 +2,7 @@ package com.database.aim.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.database.aim.pojo.PersonalTask;
+import com.database.aim.pojo.ReceiveInt;
 import com.database.aim.pojo.TaskRecord;
 import com.database.aim.pojo.TeamTask;
 import com.database.aim.service.TaskService;
@@ -85,27 +86,30 @@ public class TaskController {
     }
 
     @PostMapping("/task/deletePersonalTask")
-    public void deletePersonalTask(@RequestBody PersonalTask personalTask) {
+    public void deletePersonalTask(@RequestBody ReceiveInt receiveInt) {
+        int personalTaskId = receiveInt.getTaskId();
+        System.out.println(personalTaskId);
         try {
-            taskService.deletePersonalTask(personalTask);
+            taskService.deletePersonalTask(personalTaskId);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @PostMapping("/task/deleteTeamTask")
-    public void deleteTeamTask(@RequestBody TeamTask teamTask) {
+    public void deleteTeamTask(@RequestBody ReceiveInt receiveInt) {
+        int teamTaskId = receiveInt.getTaskId();
         try {
-            taskService.deleteTeamTask(teamTask);
+            taskService.deleteTeamTask(teamTaskId);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @PostMapping("/task/finishPersonalTask")
-    public void finishPersonalTask(@RequestBody PersonalTask personalTask) {
+    public void finishPersonalTask(@RequestBody int personalTaskId) {
         try {
-            taskService.finishPersonalTask(personalTask);
+            taskService.finishPersonalTask(personalTaskId);
         } catch (Exception e) {
             e.printStackTrace();
         }

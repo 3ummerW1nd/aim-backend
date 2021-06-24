@@ -25,41 +25,53 @@ public class LoginInterceptor  implements HandlerInterceptor{
         }
         String token = httpServletRequest.getHeader("token");
         if (null == token){
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-            httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
+            System.out.println("token是null，没有从请求得到");
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+            httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
             httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+            httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token, id");
             httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
             httpServletResponse.sendError(401);
             return false;
         }
         String tokenId = httpServletRequest.getHeader("id");
         if(!redisUtil.exists(tokenId)){
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-            httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
+            System.out.println("token在redis不存在");
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+            httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
             httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+            httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token, id");
             httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
             httpServletResponse.sendError(401);
             return false;
         }
         String redisToken = redisUtil.get(tokenId);
         if(redisUtil.ttl(redisToken) <= System.currentTimeMillis()){
+            System.out.println("token超时");
             redisUtil.del(tokenId);
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-            httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+            httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
             httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
             httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+            httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token, id");
             httpServletResponse.sendError(401);
             return false;
         }
         if(!redisToken.equals(token)) {
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-            httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
+            System.out.println("token错误");
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+            httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
             httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+            httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token, id");
             httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
             httpServletResponse.sendError(401);
-
             return false;
         }
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token, id");
         return true;
     }
 

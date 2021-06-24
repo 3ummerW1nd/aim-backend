@@ -32,8 +32,8 @@ public class TaskService {
         personalTaskDao.save(personalTask);
     }
 
-    public void deletePersonalTask(PersonalTask personalTask) {
-        personalTaskDao.delete(personalTask);
+    public void deletePersonalTask(int personalTaskId) {
+        personalTaskDao.deleteById(personalTaskId);
     }
 
     public Timestamp addDeadline(Timestamp deadline, PeriodType period) {
@@ -52,10 +52,11 @@ public class TaskService {
         return deadline;
     }
 
-    public void finishPersonalTask(PersonalTask personalTask) {
+    public void finishPersonalTask(int personalTaskId) {
+        PersonalTask personalTask = personalTaskDao.findPersonalTaskById(personalTaskId);
         PeriodType period = personalTask.getPeriod();
         if(period == PeriodType.once)
-            deletePersonalTask(personalTask);
+            deletePersonalTask(personalTaskId);
         else {
             Timestamp deadline = personalTask.getDeadline();
             deadline = addDeadline(deadline, period);
@@ -108,7 +109,8 @@ public class TaskService {
         return false;
     }
 
-    public boolean deleteTeamTask(TeamTask teamTask) {
+    public boolean deleteTeamTask(int teamTaskId) {
+        TeamTask teamTask = teamTaskDao.findTeamTaskById(teamTaskId);
         int teamId = teamTask.getTeamId();
         int userId = teamTask.getUserId();
         if(teamService.isCreator(teamId, userId) || teamService.isManager(teamId, userId)) {
